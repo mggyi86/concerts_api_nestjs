@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  concerts Concert[]
+
+  @@index([email])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  concertLogs ReservationLogs[]
+
+  @@index([email])
+}
+
+model Concert {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  description   String?
+  seat          Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author   Admin  @relation(fields: [authorId], references: [id])
+  authorId String
+
+  userLogs      ReservationLogs[]
+  reservedUsers String[]          @default([])
+
+  @@index([name])
+}
+
+enum Action {
+  Cancel
+  Reserve
+}
+
+model ReservationLogs {
+  userLog    User     @relation(fields: [userId], references: [id])
+  userId     String
+  concertLog Concert  @relation(fields: [concertId], references: [id])
+  concertId  String
+  reservedAt DateTime @default(now())
+  action     Action
+
+  @@id([userId, concertId, action])
+}
