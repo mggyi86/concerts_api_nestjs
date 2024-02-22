@@ -6,6 +6,7 @@ import { ConcertsModule } from './concerts/concerts.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminsModule } from './admins/admins.module';
+import { AdminAuthModule } from './admin-auth/admin-auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AdminsModule } from './admins/admins.module';
     UsersModule,
     AuthModule,
     AdminsModule,
+    AdminAuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

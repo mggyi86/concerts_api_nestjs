@@ -1,13 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { jwtConstants } from '../src/jwt-constants';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
 
-const roundsOfHashing = 10;
-
 async function main() {
-  const password = await bcrypt.hash('password', roundsOfHashing);
+  const password = await bcrypt.hash('password', jwtConstants.roundsOfHashing);
   const admin = await prisma.admin.upsert({
     where: { email: 'admin@admin.com' },
     update: {},
@@ -82,7 +81,7 @@ async function main() {
             userLog: {
               create: {
                 name: 'user2',
-                email: 'user1@user2.com',
+                email: 'user2@user2.com',
                 password: password,
               },
             },
@@ -92,7 +91,7 @@ async function main() {
             userLog: {
               create: {
                 name: 'user3',
-                email: 'user1@user3.com',
+                email: 'user3@user3.com',
                 password: password,
               },
             },
