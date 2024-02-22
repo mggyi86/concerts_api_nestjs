@@ -14,25 +14,22 @@ export class ReservationLogEntity implements ReservationLogs {
   reservedAt: Date;
 
   @ApiProperty({ required: false, type: UserEntity })
-  user?: UserEntity;
+  user?: any | UserEntity;
 
   @ApiProperty({ required: false, type: ConcertEntity })
-  concert?: ConcertEntity;
+  concert?: any | ConcertEntity;
 
   userId: string;
   concertId: string;
 
-  userLog?: any;
-  concertLog?: any;
-
-  constructor({ userLog, concertLog, ...data }: Partial<ReservationLogEntity>) {
+  constructor({ user, concert, ...data }: Partial<ReservationLogEntity>) {
     Object.assign(this, data);
 
-    if (userLog) {
-      this.user = new UserEntity(userLog);
+    if (user) {
+      this.user = new UserEntity(user);
     }
-    if (concertLog) {
-      this.concert = new ConcertEntity(concertLog);
+    if (concert) {
+      this.concert = new ConcertEntity(concert);
     }
   }
 }

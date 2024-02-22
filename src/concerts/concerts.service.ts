@@ -9,14 +9,13 @@ import { ConcertEntity } from './entities/concert.entity';
 export class ConcertsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createConcertDto: CreateConcertDto) {
+  async create(authorId: string, createConcertDto: CreateConcertDto) {
     const admin = await this.prisma.admin.findFirst();
-    const user = await this.prisma.user.findFirst();
     return this.prisma.concert.create({
       data: {
         ...createConcertDto,
-        authorId: admin.id,
-        reservedUsers: [user.id],
+        authorId,
+        reservedUsers: [],
       },
     });
     // const concert = new ConcertEntity(createConcertDto);
@@ -27,9 +26,9 @@ export class ConcertsService {
     return this.prisma.concert.findMany();
     // return this.prisma.user.findMany({
     //   include: {
-    //     concertLogs: {
+    //     users: {
     //       include: {
-    //         concertLog: true,
+    //         user: true,
     //       },
     //     },
     //   },

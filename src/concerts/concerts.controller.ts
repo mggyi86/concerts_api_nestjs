@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -28,16 +29,16 @@ export class ConcertsController {
   constructor(private readonly concertsService: ConcertsService) {}
 
   @Post()
+  @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiCreatedResponse({ type: ConcertEntity })
-  async create(@Body() createConcertDto: CreateConcertDto) {
+  async create(@Request() req, @Body() createConcertDto: CreateConcertDto) {
     return new ConcertEntity(
-      await this.concertsService.create(createConcertDto),
+      await this.concertsService.create(req?.user?.id, createConcertDto),
     );
   }
 
   @Get()
-  @ApiBearerAuth()
   @ApiOkResponse({ type: ConcertEntity, isArray: true })
   async findAll() {
     const concerts = await this.concertsService.findAll();
@@ -55,6 +56,7 @@ export class ConcertsController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOkResponse({ type: ConcertEntity })
   async update(
@@ -67,6 +69,7 @@ export class ConcertsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOkResponse({ type: ConcertEntity })
   async remove(@Param('id', ParseUUIDPipe) id: string) {

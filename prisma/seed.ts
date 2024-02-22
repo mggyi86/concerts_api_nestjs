@@ -64,11 +64,11 @@ async function main() {
         },
       },
       seat: 500,
-      userLogs: {
+      users: {
         create: [
           {
             action: 'Reserve',
-            userLog: {
+            user: {
               create: {
                 name: 'user1',
                 email: 'user1@user1.com',
@@ -78,7 +78,7 @@ async function main() {
           },
           {
             action: 'Reserve',
-            userLog: {
+            user: {
               create: {
                 name: 'user2',
                 email: 'user2@user2.com',
@@ -88,7 +88,7 @@ async function main() {
           },
           {
             action: 'Reserve',
-            userLog: {
+            user: {
               create: {
                 name: 'user3',
                 email: 'user3@user3.com',

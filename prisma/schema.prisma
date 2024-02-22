@@ -34,23 +34,23 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  concertLogs ReservationLogs[]
+  concerts ReservationLogs[]
 
   @@index([email])
 }
 
 model Concert {
-  id            String   @id @default(uuid())
-  name          String   @unique
-  description   String?
-  seat          Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  seat        Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   author   Admin  @relation(fields: [authorId], references: [id])
   authorId String
 
-  userLogs      ReservationLogs[]
+  users         ReservationLogs[]
   reservedUsers String[]          @default([])
 
   @@index([name])
@@ -63,9 +63,9 @@ enum Action {
 
 model ReservationLogs {
   id         String   @id @default(uuid())
-  userLog    User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
-  concertLog Concert  @relation(fields: [concertId], references: [id])
+  concert    Concert  @relation(fields: [concertId], references: [id])
   concertId  String
   reservedAt DateTime @default(now())
   action     Action
