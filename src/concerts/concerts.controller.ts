@@ -16,11 +16,11 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ConcertsService } from './concerts.service';
 import { CreateConcertDto } from './dto/create-concert.dto';
 import { UpdateConcertDto } from './dto/update-concert.dto';
 import { ConcertEntity } from './entities/concert.entity';
+import { AdminAuthGuard } from 'src/admin-auth/admin-auth.guard';
 
 @Controller('concerts')
 @ApiTags('concerts')
@@ -28,6 +28,7 @@ export class ConcertsController {
   constructor(private readonly concertsService: ConcertsService) {}
 
   @Post()
+  @UseGuards(AdminAuthGuard)
   @ApiCreatedResponse({ type: ConcertEntity })
   async create(@Body() createConcertDto: CreateConcertDto) {
     return new ConcertEntity(
@@ -36,7 +37,6 @@ export class ConcertsController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: ConcertEntity, isArray: true })
   async findAll() {
@@ -55,6 +55,7 @@ export class ConcertsController {
   }
 
   @Patch(':id')
+  @UseGuards(AdminAuthGuard)
   @ApiOkResponse({ type: ConcertEntity })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -66,6 +67,7 @@ export class ConcertsController {
   }
 
   @Delete(':id')
+  @UseGuards(AdminAuthGuard)
   @ApiOkResponse({ type: ConcertEntity })
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return new ConcertEntity(await this.concertsService.remove(id));

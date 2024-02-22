@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Concert } from '@prisma/client';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { AdminEntity } from 'src/admins/entities/admin.entity';
 
 export class ConcertEntity implements Concert {
   @ApiProperty({ required: false })
@@ -21,15 +21,15 @@ export class ConcertEntity implements Concert {
   createdAt: Date;
   updatedAt: Date;
 
-  @ApiProperty({ required: false, type: UserEntity })
-  author: UserEntity;
+  @ApiProperty({ required: false, type: AdminEntity })
+  author: AdminEntity;
 
   constructor({ author, ...data }: Partial<ConcertEntity>) {
     Object.assign(this, data);
     this.reservedUsersCount = this.reservedUsers?.length;
 
     if (author) {
-      this.author = new UserEntity(author);
+      this.author = new AdminEntity(author);
     }
   }
 }

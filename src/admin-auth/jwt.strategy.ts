@@ -5,7 +5,7 @@ import { AdminsService } from 'src/admins/admins.service';
 import { jwtConstants } from '../jwt-constants';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtStrategy extends PassportStrategy(Strategy, 'admin') {
   constructor(private adminsService: AdminsService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

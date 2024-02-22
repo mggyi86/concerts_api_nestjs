@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminsModule } from './admins/admins.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
+import { ReservationLogsModule } from './reservation-logs/reservation-logs.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AdminAuthModule } from './admin-auth/admin-auth.module';
     AuthModule,
     AdminsModule,
     AdminAuthModule,
+    ReservationLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
