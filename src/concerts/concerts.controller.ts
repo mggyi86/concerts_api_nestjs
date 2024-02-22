@@ -58,7 +58,7 @@ export class ConcertsController {
 
   @Delete(':id')
   @ApiOkResponse({ type: ConcertEntity })
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.concertsService.remove(id);
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    return new ConcertEntity(await this.concertsService.remove(id));
   }
 }

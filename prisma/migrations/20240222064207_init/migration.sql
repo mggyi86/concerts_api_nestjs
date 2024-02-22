@@ -6,6 +6,7 @@ CREATE TABLE "Admin" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -17,6 +18,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -39,12 +41,13 @@ CREATE TABLE "Concert" (
 
 -- CreateTable
 CREATE TABLE "ReservationLogs" (
+    "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "concertId" TEXT NOT NULL,
     "reservedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "action" "Action" NOT NULL,
 
-    CONSTRAINT "ReservationLogs_pkey" PRIMARY KEY ("userId","concertId","action")
+    CONSTRAINT "ReservationLogs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

@@ -37,7 +37,10 @@ export class ConcertsService {
   }
 
   findOne(id: string) {
-    return this.prisma.concert.findUnique({ where: { id } });
+    return this.prisma.concert.findUnique({
+      where: { id },
+      include: { author: true },
+    });
   }
 
   update(id: string, updateConcertDto: UpdateConcertDto) {
