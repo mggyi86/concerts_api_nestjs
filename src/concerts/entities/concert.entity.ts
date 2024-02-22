@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Concert } from '@prisma/client';
 
 export class ConcertEntity implements Concert {
-  createdAt: Date;
-  updatedAt: Date;
   @ApiProperty()
   id: string;
 
@@ -23,10 +21,13 @@ export class ConcertEntity implements Concert {
   reservedUsers: string[];
 
   @ApiProperty()
-  reservedUsersCount: any;
+  reservedUsersCount: number;
+
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor({ ...data }: Partial<ConcertEntity>) {
     Object.assign(this, data);
-    this.reservedUsersCount = this.reservedUsers.length;
+    this.reservedUsersCount = this.reservedUsers?.length;
   }
 }

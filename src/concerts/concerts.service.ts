@@ -3,13 +3,24 @@ import { Injectable } from '@nestjs/common';
 import { CreateConcertDto } from './dto/create-concert.dto';
 import { UpdateConcertDto } from './dto/update-concert.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ConcertEntity } from './entities/concert.entity';
 
 @Injectable()
 export class ConcertsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createConcertDto: CreateConcertDto) {
-    return this.prisma.concert.create({ data: createConcertDto });
+  async create(createConcertDto: CreateConcertDto) {
+    const admin = await this.prisma.admin.findFirst();
+    const user = await this.prisma.user.findFirst();
+    return this.prisma.concert.create({
+      data: {
+        ...createConcertDto,
+        authorId: admin.id,
+        reservedUsers: [user.id],
+      },
+    });
+    // const concert = new ConcertEntity(createConcertDto);
+    // return this.prisma.concert.create({ data: concert });
   }
 
   findAll() {
@@ -29,11 +40,14 @@ export class ConcertsService {
     return this.prisma.concert.findUnique({ where: { id } });
   }
 
-  update(id: number, updateConcertDto: UpdateConcertDto) {
-    return `This action updates a #${id} concert`;
+  update(id: string, updateConcertDto: UpdateConcertDto) {
+    return this.prisma.concert.update({
+      where: { id },
+      data: updateConcertDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} concert`;
+  remove(id: string) {
+    return this.prisma.concert.delete({ where: { id } });
   }
 }
