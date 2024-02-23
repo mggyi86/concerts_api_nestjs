@@ -5,6 +5,7 @@ import {
   Request,
   ParseUUIDPipe,
   Param,
+  Post,
 } from '@nestjs/common';
 import { ReservationLogsService } from './reservation-logs.service';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -20,7 +21,7 @@ export class ReservationLogsController {
     private readonly reservationLogsService: ReservationLogsService,
   ) {}
 
-  @Get('reserve/:concertId')
+  @Post('reserve/:concertId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: ReservationLogEntity, isArray: true })
@@ -35,7 +36,7 @@ export class ReservationLogsController {
     return new ConcertEntity(concert);
   }
 
-  @Get('cancel/:concertId')
+  @Post('cancel/:concertId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: ReservationLogEntity, isArray: true })

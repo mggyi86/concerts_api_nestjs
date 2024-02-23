@@ -39,7 +39,7 @@ export class ReservationLogsService {
     const reservedUsers = concert?.reservedUsers;
     if (
       reservedUsers.length === 0 ||
-      reservedUsers.find((resId: string) => resId !== userId)
+      reservedUsers.every((resId: string) => resId !== userId)
     ) {
       throw new NotAcceptableException('Already Cancel!');
     }
